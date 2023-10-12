@@ -29,15 +29,9 @@ from typing import (
     Any,
     cast,
     Callable,
+    TypedDict,
 )
 from uuid import uuid4
-
-# @TODO: typing.Protocol is in python >= 3.8
-try:
-    from typing import Protocol, TypedDict
-except ImportError:
-    from typing_extensions import Protocol, TypedDict  # type: ignore
-
 import gevent
 import greenlet
 import psutil
@@ -909,13 +903,13 @@ class MasterRunner(DistributedRunner):
             not self.state == STATE_INIT
             and not self.state == STATE_STOPPED
             and (
-                    self.state == STATE_STOPPING
-                    and all(
-                        map(
-                            lambda x: x.state == STATE_INIT,
-                            self.clients.all,
-                        )
+                self.state == STATE_STOPPING
+                and all(
+                    map(
+                        lambda x: x.state == STATE_INIT,
+                        self.clients.all,
                     )
+                )
             )
             or all(
                 map(
