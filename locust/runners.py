@@ -836,7 +836,7 @@ class MasterRunner(DistributedRunner):
 
         logger.info(f"{msg_prefix}: {_format_user_classes_count_for_log(self.reported_user_classes_count)}")
 
-    @functools.lru_cache()
+    @functools.lru_cache
     def _wait_for_workers_report_after_ramp_up(self) -> float:
         """
         The amount of time to wait after a ramp-up in order for all the workers to report their state
@@ -909,7 +909,6 @@ class MasterRunner(DistributedRunner):
             not self.state == STATE_INIT
             and not self.state == STATE_STOPPED
             and (
-                (
                     self.state == STATE_STOPPING
                     and all(
                         map(
@@ -917,7 +916,6 @@ class MasterRunner(DistributedRunner):
                             self.clients.all,
                         )
                     )
-                )
             )
             or all(
                 map(
