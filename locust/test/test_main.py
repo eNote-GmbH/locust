@@ -612,7 +612,7 @@ class StandaloneIntegrationTests(ProcessIntegrationTest):
             except Exception:
                 pass
             self.assertEqual(200, response.status_code)
-            proc.send_signal(signal.SIGTERM)
+            proc.send_signal(signal.SIGINT)
             stdout, stderr = proc.communicate()
             self.assertIn("Starting Locust", stderr)
             self.assertIn("No run time limit set, use CTRL+C to interrupt", stderr)
