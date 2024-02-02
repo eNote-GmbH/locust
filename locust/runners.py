@@ -88,6 +88,10 @@ class ExceptionDict(TypedDict):
     nodes: set[str]
 
 
+def empty_exceptions_dict() -> dict[int, ExceptionDict]:
+    return defaultdict(lambda: {"count": 0, "msg": "", "traceback": "", "nodes": set()})
+
+
 class Runner:
     """
     Orchestrates the load test by starting and stopping the users.
@@ -417,10 +421,9 @@ class Runner:
 
     def log_exception(self, node_id: str, msg: str, formatted_tb: str) -> None:
         key = hash(formatted_tb)
-        row = self.exceptions.setdefault(key, {"count": 0, "msg": msg, "traceback": formatted_tb, "nodes": set()})
+        row = self.exceptions[key]
         row["count"] += 1
         row["nodes"].add(node_id)
-        self.exceptions[key] = row
 
     def register_message(self, msg_type: str, listener: Callable) -> None:
         """
@@ -475,7 +478,7 @@ class LocalRunner(Runner):
 
         if self.state != STATE_RUNNING and self.state != STATE_SPAWNING:
             self.stats.clear_all()
-            self.exceptions = {}
+            self.exceptions = empty_exceptions_dict()
             self.cpu_warning_emitted = False
             self.worker_cpu_warning_emitted = False
             self.environment._filter_tasks_by_tags()
@@ -767,7 +770,7 @@ class MasterRunner(DistributedRunner):
 
         if self.state != STATE_RUNNING and self.state != STATE_SPAWNING:
             self.stats.clear_all()
-            self.exceptions = {}
+            self.exceptions = empty_exceptions_dict()
             self.environment._filter_tasks_by_tags()
             self.environment.events.test_start.fire(environment=self.environment)
             if self.environment.shape_class:
@@ -1326,7 +1329,7 @@ class WorkerRunner(DistributedRunner):
 
                 if self.worker_state != STATE_RUNNING and self.worker_state != STATE_SPAWNING:
                     self.stats.clear_all()
-                    self.exceptions = {}
+                    self.exceptions = empty_exceptions_dict()
                     self.cpu_warning_emitted = False
                     self.worker_cpu_warning_emitted = False
                     self.environment._filter_tasks_by_tags()
