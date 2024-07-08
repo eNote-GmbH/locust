@@ -4,6 +4,8 @@ Changelog Highlights
 
 For full details of the Locust changelog, please see https://github.com/locustio/locust/blob/master/CHANGELOG.md
 
+# DUMMY CHANGE
+
 2.29.1
 ======
 * Add option to Skip Monkey Patching with LOCUST_SKIP_MONKEY_PATCH https://github.com/locustio/locust/pull/2765
