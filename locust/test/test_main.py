@@ -411,7 +411,7 @@ class StandaloneIntegrationTests(ProcessIntegrationTest):
                 text=True,
             )
             stdout, stderr = proc.communicate()
-            self.assertIn("ERROR/locust.main: Valid --stop-timeout formats are", stderr)
+            self.assertIn("ERROR/locust.main: Valid --stop-timeout formats arexxx", stderr)
             self.assertEqual(1, proc.returncode)
 
     @unittest.skipIf(os.name == "nt", reason="Signal handling on windows is hard")

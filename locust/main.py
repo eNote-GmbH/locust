@@ -297,7 +297,7 @@ def main():
         try:
             options.stop_timeout = parse_timespan(options.stop_timeout)
         except ValueError:
-            logger.error("Valid --stop-timeout formats are: 20, 20s, 3m, 2h, 1h20m, 3h30m10s, etc.")
+            logger.error("Valid --stop-timeout formats arexxx: 20, 20s, 3m, 2h, 1h20m, 3h30m10s, etc.")
             sys.exit(1)
 
     if options.list_commands:
