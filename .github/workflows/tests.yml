@@ -186,7 +186,7 @@ jobs:
           tags: locustio/locust:${{ env.TAG }}${{ ( env.BRANCH == 'master' && ',locustio/locust:latest') || '' }}
 
   publish:
-    name: PyPI - Publish if this is a tagged commit
+    name: Publish release on tag
     needs: [verify_docker_build, tests]
     if: startsWith(github.event.ref, 'refs/tags') && github.repository_owner == 'locustio'
     runs-on: ubuntu-latest
@@ -243,7 +243,7 @@ jobs:
     #       access_token_secret: ${{ secrets.TWITTER_API_ACCESS_TOKEN_SECRET }}
 
   publish_prerelease:
-    name: PyPI - Publish prerelease on merge commit on master
+    name: Publish prerelease on merge commit to master
     needs: tests
     if: github.ref == 'refs/heads/master' && github.repository_owner == 'locustio' && github.env.NOT_MERGE_COMMIT == ''
     runs-on: ubuntu-latest
