@@ -299,6 +299,9 @@ def main():
                 atexit.register(kill_workers, children)
 
     logger = logging.getLogger(__name__)
+
+    logging.info(f"Starting Locust {version}")
+
     greenlet_exception_handler = greenlet_exception_logger(logger)
 
     if options.stop_timeout:
@@ -686,7 +689,6 @@ See https://github.com/locustio/locust/wiki/Installation#increasing-maximum-numb
     gevent.signal_handler(signal.SIGTERM, sig_term_handler)
 
     try:
-        logger.info(f"Starting Locust {version}")
         if options.class_picker:
             logger.info("Locust is running with the UserClass Picker Enabled")
         if options.autostart and not options.headless:
